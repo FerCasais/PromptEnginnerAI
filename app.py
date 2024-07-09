@@ -1,14 +1,19 @@
+from dotenv import load_dotenv
+import os
 import streamlit as st
 import google.generativeai as genai
 import requests
-import key
-import photo
 
-genai.configure(api_key=key.clave)
+load_dotenv()
+
+API_KEY = os.environ.get('API_KEY')
+PHOTO_ACCESS_KEY = os.environ.get('PHOTO_ACCESS_KEY')
+
+genai.configure(api_key=API_KEY)
 
 model = genai.GenerativeModel(model_name="gemini-1.0-pro")
 
-PHOTO_ACCESS_KEY = photo.clave
+PHOTO_ACCESS_KEY = PHOTO_ACCESS_KEY
 
 def get_unsplash_image(query):
     url = f"https://api.unsplash.com/search/photos?query={query}&client_id={PHOTO_ACCESS_KEY}"
@@ -19,10 +24,18 @@ def get_unsplash_image(query):
             return data['results'][0]['urls']['regular']
     return None
 
+# Título
+st.title("Recomendador de Lugares de Interés para Viajes")
+
+# Descripción
+st.write("""
+## Descripción
+Esta aplicación ofrece recomendaciones personalizadas de lugares de interés para tus viajes basadas en tus preferencias y necesidades. Puedes interactuar con nuestro sistema para obtener información detallada, hacer preguntas y recibir feedback personalizado.
+""")
 nombre = st.text_input("¿Cómo te llamas?")
 ciudad = st.text_input("¿Sobre qué ciudad deseas consultar?")
 
-context = (f'Como un guía turístico experto, recomiéndale a {nombre} sobre la ciudad de {ciudad}, solo lo que te pregunta específicamente. Ofrecele tus opciones con información detallada e incluir precio de entradas si correspondiese, y también como llegar en transporte público, su precio, y horarios. Al final, preguntale si ha podido visitar alguna de tus recomendaciones, y si necesita más sugerencias.')
+context = (f'Como un guía turístico experto, recomiéndale a {nombre} sobre la ciudad de {ciudad}, solo lo que te pregunta específicamente. Ofrecele tus opciones con información detallada e incluir precio de entradas si correspondiese, y también como llegar en transporte público, su precio, y horarios. Preguntale si ha podido visitar alguna de tus recomendaciones, y si necesita más sugerencias.')
 
 # Inicializar el historial de chat en el estado de sesión
 if "chat_history" not in st.session_state:
@@ -42,19 +55,8 @@ def obtener_experiencia():
 def feedback_preferencias(preferencias):
     return f"{nombre}, tus preferencias son {preferencias}. Aquí tienes algunas recomendaciones basadas en ellas:"
 
-# Título
-st.title("Recomendador de Lugares de Interés para Viajes")
-
-# Descripción
-st.write("""
-## Descripción
-Esta aplicación ofrece recomendaciones personalizadas de lugares de interés para tus viajes basadas en tus preferencias y necesidades. Puedes interactuar con nuestro sistema para obtener información detallada, hacer preguntas y recibir feedback personalizado.
-""")
-
-
-
 if nombre:
-    st.write(f"¡Hola {nombre}! ¿En qué puedo ayudarte a planificar tu viaje?")
+    st.write(f"¡Hola {nombre} ¿En qué puedo ayudarte a planificar tu viaje?")
 
 # Mostrar el historial de chat en la barra lateral
 st.sidebar.title("Chat History")
@@ -131,4 +133,3 @@ st.write("""
 4. **¿Qué tipo de información puedo obtener sobre los lugares de interés?**
    - Puedes obtener detalles sobre horarios, precios de entradas, cómo llegar en transporte público, entre otros.
 """)
-
