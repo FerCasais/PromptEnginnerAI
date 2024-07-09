@@ -19,8 +19,7 @@ def get_unsplash_image(query):
             return data['results'][0]['urls']['regular']
     return None
 
-nombre = st.text_input("¿Cómo te llamas?")
-ciudad = st.text_input("¿Sobre qué ciudad deseas consultar?")
+
 
 context = (f'Como un guía turístico experto, recomiéndale a {nombre} sobre la ciudad de {ciudad}, solo lo que te pregunta específicamente. Ofrecele tus opciones con información detallada e incluir precio de entradas si correspondiese, y también como llegar en transporte público, su precio, y horarios. Al final, preguntale si ha podido visitar alguna de tus recomendaciones, y si necesita más sugerencias.')
 
@@ -50,6 +49,9 @@ st.write("""
 ## Descripción
 Esta aplicación ofrece recomendaciones personalizadas de lugares de interés para tus viajes basadas en tus preferencias y necesidades. Puedes interactuar con nuestro sistema para obtener información detallada, hacer preguntas y recibir feedback personalizado.
 """)
+
+nombre = st.text_input("¿Cómo te llamas?")
+ciudad = st.text_input("¿Sobre qué ciudad deseas consultar?")
 
 if nombre:
     st.write(f"¡Hola {nombre}! ¿En qué puedo ayudarte a planificar tu viaje?")
