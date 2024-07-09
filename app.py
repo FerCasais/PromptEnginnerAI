@@ -4,6 +4,7 @@ import streamlit as st
 import google.generativeai as genai
 import requests
 
+# Cargar variables de entorno
 load_dotenv()
 
 API_KEY = os.environ.get('API_KEY')
@@ -11,9 +12,7 @@ PHOTO_ACCESS_KEY = os.environ.get('PHOTO_ACCESS_KEY')
 
 genai.configure(api_key=API_KEY)
 
-model = genai.GenerativeModel(model_name="gemini-1.0-pro")
-
-
+model = genai.GenerativeModel(model_name="gemini-1.5-flash")
 
 def get_unsplash_image(query):
     url = f"https://api.unsplash.com/search/photos?query={query}&client_id={PHOTO_ACCESS_KEY}"
@@ -22,6 +21,10 @@ def get_unsplash_image(query):
         data = response.json()
         if 'results' in data and data['results']:
             return data['results'][0]['urls']['regular']
+        else:
+            st.write(f"No se encontraron resultados para la consulta: {query}")
+    else:
+        st.write(f"Error en la solicitud a Unsplash: {response.status_code}")
     return None
 
 # Título
