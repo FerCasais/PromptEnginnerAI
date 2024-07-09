@@ -13,7 +13,7 @@ genai.configure(api_key=API_KEY)
 
 model = genai.GenerativeModel(model_name="gemini-1.0-pro")
 
-PHOTO_ACCESS_KEY = PHOTO_ACCESS_KEY
+
 
 def get_unsplash_image(query):
     url = f"https://api.unsplash.com/search/photos?query={query}&client_id={PHOTO_ACCESS_KEY}"
