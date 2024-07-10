@@ -28,7 +28,10 @@ def get_unsplash_image(query):
     return None
 
 # Título
-st.title("Recomendador de Lugares de Interés para Viajes")
+st.title("ExploraIA")
+
+# Título
+st.subheader("Recomendador de Lugares de Interés para Viajes")
 
 # Descripción
 st.write("""
